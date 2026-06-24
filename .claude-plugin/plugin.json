@@ -1,0 +1,70 @@
+{
+  "name": "dehumanize",
+  "description": "Makes AI work like AI — no human time estimates, no asking for accessible data, no emotional labor.",
+  "displayName": "Dehumanize",
+  "author": {
+    "name": "88plug",
+    "url": "https://github.com/88plug"
+  },
+  "license": "FSL-1.1-ALv2",
+  "homepage": "https://github.com/88plug/dehumanize",
+  "repository": "https://github.com/88plug/dehumanize",
+  "keywords": [
+    "claude-code",
+    "claude",
+    "anthropic",
+    "ai",
+    "llm",
+    "ai-agents",
+    "developer-tools",
+    "productivity",
+    "automation",
+    "cli",
+    "claude-code-plugin",
+    "claude-skills",
+    "language-model",
+    "prompt-engineering",
+    "ai-discipline",
+    "dehumanize",
+    "anti-patterns",
+    "engineering-discipline",
+    "software-quality",
+    "ai-native"
+  ],
+  "_statusLine_NOTE": "statusLine is not a plugin manifest field. Run install.sh to wire into ~/.claude/settings.json",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-init.sh\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/capture-stop.sh\"",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/inject-correction.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

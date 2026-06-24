@@ -1,0 +1,27 @@
+site_name: dehumanize
+site_description: Makes AI work like AI
+site_url: https://88plug.github.io/dehumanize
+repo_url: https://github.com/88plug/dehumanize
+edit_uri: edit/main/docs/
+docs_dir: docs
+theme:
+  name: material
+  features: [navigation.sections, search.highlight, content.code.copy]
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - def_list
+  - footnotes
+  - tables
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+  - toc:
+      permalink: true
+nav:
+  - Home: index.md
+  - Anti-Patterns: patterns.md
+  - Configuration: config.md
+  - Backtesting: backtesting.md
+  - Changelog: changelog.md

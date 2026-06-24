@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+.env.*
+eval_real_corpus.json
+.real_corpus_manifest.json
+scripts/sweep_r*.py
+eval_run_*.json
+EVAL_REPORT.md
+site/
+.DS_Store
+*.log
+*.tmp
+.coverage
+dist/
