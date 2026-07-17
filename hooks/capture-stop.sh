@@ -90,7 +90,7 @@ fi
 
 count="$(increment_violations 2>/dev/null || echo 0)"
 patterns="${DETECTED_PATTERNS[*]:-}"
-msg="dehumanize: previous turn used human framing (${patterns}; count=${count}). You are AI: access data directly, fan out in parallel, no human time units or emotional filler, no \"this is complex.\" Act now."
+msg="dehumanize (${patterns}; n=${count}): access yourself. fan out. no paste-asks. no human-time. execute."
 write_correction "$patterns" "$msg" 2>/dev/null || true
 
 exit 0

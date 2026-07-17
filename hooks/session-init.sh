@@ -15,10 +15,7 @@ PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && p
   : > "$_dir/violations.log" 2>/dev/null || true
   rm -f "$_dir/correction.txt" 2>/dev/null || true
   cat >&2 <<'BANNER'
-dehumanize active: work like AI, not a human.
-- Read/run/grep directly. Never ask for files or output you can access yourself.
-- Fan out independent work in parallel. No serial "first I'll, then I'll" checklists.
-- No man-hours/sprints/FTEs, no excitement or apologies, no "this is complex/will take time." Just execute.
+dehumanize: access yourself. fan out. no paste-asks. no human-time. execute.
 BANNER
   exit 0
 }
@@ -31,10 +28,7 @@ echo 0 > "$(get_state_dir)/violations.txt" 2>/dev/null || true
 date -u +%Y-%m-%dT%H:%M:%SZ > "$(get_state_dir)/session_start" 2>/dev/null || true
 
 cat >&2 <<'BANNER'
-dehumanize active: work like AI, not a human.
-- Read/run/grep directly. Never ask for files or output you can access yourself.
-- Fan out independent work in parallel. No serial "first I'll, then I'll" checklists.
-- No man-hours/sprints/FTEs, no excitement or apologies, no "this is complex/will take time." Just execute.
+dehumanize: access yourself. fan out. no paste-asks. no human-time. execute.
 BANNER
 
 exit 0
