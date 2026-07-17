@@ -18,7 +18,7 @@ Detects and corrects AI responses that quote human time, ask for directly-access
 
 ```bash
 /plugin marketplace add 88plug/claude-code-plugins
-/plugin install dehumanize
+/plugin install dehumanize@88plug
 ```
 
 ## What it blocks

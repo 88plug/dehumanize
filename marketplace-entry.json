@@ -1,14 +1,16 @@
 {
   "name": "dehumanize",
   "source": {
-    "source": "github",
-    "repo": "88plug/dehumanize"
+    "source": "url",
+    "url": "https://github.com/88plug/dehumanize.git"
   },
-  "description": "Makes AI work like AI — no human time estimates, no asking for accessible data.",
+  "description": "Makes AI work like AI — no human time estimates, no asking for accessible data, no emotional labor.",
   "category": "productivity",
   "tags": [
     "type:plugin",
-    "ai-discipline"
+    "ai-discipline",
+    "anti-patterns",
+    "ai-native"
   ],
   "homepage": "https://github.com/88plug/dehumanize"
 }

@@ -1,12 +1,30 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "dehumanize",
-  "description": "Makes AI work like AI — no human time estimates, no asking for accessible data.",
-  "category": "productivity",
-  "tags": [
-    "type:plugin",
-    "ai-discipline",
-    "anti-patterns",
-    "ai-native"
-  ],
-  "homepage": "https://github.com/88plug/dehumanize"
+  "description": "Makes AI work like AI — no human time estimates, no asking for accessible data, no emotional labor.",
+  "owner": {
+    "name": "88plug",
+    "email": "andrew@88plug.com"
+  },
+  "plugins": [
+    {
+      "name": "dehumanize",
+      "source": ".",
+      "displayName": "Dehumanize",
+      "description": "Makes AI work like AI — no human time estimates, no asking for accessible data, no emotional labor.",
+      "author": {
+        "name": "88plug",
+        "email": "andrew@88plug.com"
+      },
+      "homepage": "https://github.com/88plug/dehumanize",
+      "license": "FSL-1.1-ALv2",
+      "category": "productivity",
+      "tags": [
+        "type:plugin",
+        "ai-discipline",
+        "anti-patterns",
+        "ai-native"
+      ]
+    }
+  ]
 }

@@ -1,14 +1,15 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "dehumanize",
-  "description": "Makes AI work like AI — no human time estimates, no asking for accessible data, no emotional labor.",
   "displayName": "Dehumanize",
+  "description": "Makes AI work like AI — no human time estimates, no asking for accessible data, no emotional labor.",
   "author": {
     "name": "88plug",
-    "url": "https://github.com/88plug"
+    "email": "andrew@88plug.com"
   },
   "license": "FSL-1.1-ALv2",
   "homepage": "https://github.com/88plug/dehumanize",
-  "repository": "https://github.com/88plug/dehumanize",
+  "repository": "https://github.com/88plug/dehumanize.git",
   "keywords": [
     "claude-code",
     "claude",
@@ -31,7 +32,6 @@
     "software-quality",
     "ai-native"
   ],
-  "_statusLine_NOTE": "statusLine is not a plugin manifest field. Run install.sh to wire into ~/.claude/settings.json",
   "hooks": {
     "SessionStart": [
       {
@@ -66,5 +66,7 @@
         ]
       }
     ]
-  }
+  },
+  "commands": "./commands",
+  "skills": "./skills"
 }
