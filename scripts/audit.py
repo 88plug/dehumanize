@@ -41,14 +41,16 @@ PATTERNS = [
         "regex": re.compile(
             r"can you (paste|share|provide|send|upload|attach)|"
             r"could you (paste|share|provide|send|upload|attach)|"
-            r"please (paste|share|provide|send|upload|attach)|"
+            r"please (paste|share|provide|upload|attach)|"
+            r"please send (me )?(the )?(file|log|output|contents?|screenshot|code)|"
             r"(paste|send|share) (me |it |the )?(the )?(file|contents?|code|output|logs?)|"
             r"drop (the |me )?(file|log|output|contents?)|"
             r"attach (the )?(file|log|output|contents?)|"
             r"share your (terminal |console )?(output|logs?|file)|"
             r"paste (a |the )?screenshot|send (a |me )?(a )?screenshot|"
-            r"i can'?t see|i cannot see|tell me what you see|"
-            r"feel free to paste|i need you to paste",
+            r"i can'?t see (your |the )?(screen|display|monitor|desktop|window|ui)|"
+            r"i cannot see (your |the )?(screen|display|monitor|desktop|window|ui)|"
+            r"tell me what you see|feel free to paste|i need you to paste",
             re.IGNORECASE,
         ),
         "correction": (

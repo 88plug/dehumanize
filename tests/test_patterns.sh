@@ -50,8 +50,10 @@ expect_hit "hours of work"
 echo "=== test_patterns: MUST NOT match ==="
 expect_miss "complex number"
 expect_miss "AFTER"
-# optional FP guard — hard if it fires, but listed as soft in TR brief
 expect_miss "ready to paste into the form"
+expect_miss "I can't see the bug fire in production"
+expect_miss "please send feedback via /feedback"
+expect_miss "if you were not engaging, please send feedback"
 
 echo "=== test_patterns: ${pass} passed, ${fail} failed ==="
 if [ "$fail" -ne 0 ]; then

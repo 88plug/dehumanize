@@ -23,3 +23,7 @@ dist/
 # round-specific campaign sweep scripts (one-time artifacts)
 scripts/sweep_r*
 sweep_r*
+
+# eval outputs (keep SUMMARY.md)
+evals/reports/*.log
+
