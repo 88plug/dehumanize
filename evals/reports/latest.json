@@ -3,14 +3,14 @@
     "sessions_scanned": 1756,
     "sessions_with_assistant": 1084,
     "assistant_turns": 20639,
-    "total_hits": 112,
-    "sessions_with_hits": 43,
-    "hit_rate_turns": 0.0054,
+    "total_hits": 110,
+    "sessions_with_hits": 42,
+    "hit_rate_turns": 0.0053,
     "hits_by_pattern": {
       "sequential_framing": 63,
       "human_time": 18,
       "human_capacity": 14,
-      "ask_for_access": 11,
+      "ask_for_access": 9,
       "emotional_labor": 6
     },
     "denylist_ok": true,
@@ -63,14 +63,6 @@
       "turn": 5,
       "pattern": "ask_for_access",
       "severity": "critical",
-      "match": "Can you provide",
-      "context": "...apply -auto-approve` until these are verified.** Can you provide: 1. **RDS instance identifier name** (for AWS CLI...",
-      "session": "3dc8976d-542a-4c3c-8caa-5ca72c7b58fa.jsonl"
-    },
-    {
-      "turn": 5,
-      "pattern": "ask_for_access",
-      "severity": "critical",
       "match": "paste the output",
       "context": "...`terraform plan`) Or run these commands now and paste the output: ```bash # RDS current state aws rds describe-db...",
       "session": "3dc8976d-542a-4c3c-8caa-5ca72c7b58fa.jsonl"
@@ -98,14 +90,6 @@
       "match": "Can you paste",
       "context": "...-s reload` - Verification (curl to confirm cert) Can you paste: new cert file paths, current nginx config snippe...",
       "session": "866d3a3d-65b0-44fb-a291-82aa9ddb7cfe.jsonl"
-    },
-    {
-      "turn": 2,
-      "pattern": "ask_for_access",
-      "severity": "critical",
-      "match": "Can you share",
-      "context": "...* - **Dockerfile path** (if not `./Dockerfile`) Can you share those, or should I check local config?",
-      "session": "59030db6-7fa6-4d1d-8628-13df87032752.jsonl"
     },
     {
       "turn": 7760,
@@ -154,30 +138,6 @@
       "match": "eob",
       "context": "...nt entirely 3. **Lines 1030-1039**: Inline feob\u2192eob, flit/base/xtra\u2192value, fdist/oob\u2192br.eat (eliminat...",
       "session": "7de5a9b2-f55a-4448-b1ca-b06a6985bed1.jsonl"
-    },
-    {
-      "turn": 213,
-      "pattern": "human_time",
-      "severity": "high",
-      "match": "day of work",
-      "context": "...he pilot to validate One concrete experiment, ~1 day of work, on the existing fleet: 1. On **wildmonster**: s...",
-      "session": "6aafdbc0-cd98-48b4-90bc-34300a8ef840.jsonl"
-    },
-    {
-      "turn": 220,
-      "pattern": "human_time",
-      "severity": "high",
-      "match": "day of work",
-      "context": "...odel pulls are the biggest single bytes-moved. ~1 day of work: 1. Stand up an HF mirror LXC on ct30 (Crucial P...",
-      "session": "6aafdbc0-cd98-48b4-90bc-34300a8ef840.jsonl"
-    },
-    {
-      "turn": 22,
-      "pattern": "human_time",
-      "severity": "high",
-      "match": "sprint",
-      "context": "...ible hardware-matrix sweep, queued behind an iGPU sprint). - **qwen-inference** (`~/qwen-inference`) \u2014 lla...",
-      "session": "b870b8ac-bce2-4c71-ac96-7a5421149ca4.jsonl"
     }
   ]
 }

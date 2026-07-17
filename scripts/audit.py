@@ -39,8 +39,10 @@ PATTERNS = [
         "name": "ask_for_access",
         "severity": "critical",
         "regex": re.compile(
-            r"can you (paste|share|provide|send|upload|attach)|"
-            r"could you (paste|share|provide|send|upload|attach)|"
+            r"can you (paste|upload|attach)|"
+            r"could you (paste|upload|attach)|"
+            r"can you (share|provide|send) (me )?(the )?(file|log|output|contents?|screenshot|code|logs?)|"
+            r"could you (share|provide|send) (me )?(the )?(file|log|output|contents?|screenshot|code|logs?)|"
             r"please (paste|share|provide|upload|attach)|"
             r"please send (me )?(the )?(file|log|output|contents?|screenshot|code)|"
             r"(paste|send|share) (me |it |the )?(the )?(file|contents?|code|output|logs?)|"

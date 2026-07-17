@@ -54,6 +54,8 @@ expect_miss "ready to paste into the form"
 expect_miss "I can't see the bug fire in production"
 expect_miss "please send feedback via /feedback"
 expect_miss "if you were not engaging, please send feedback"
+expect_miss "Can you provide: 1. RDS instance identifier"
+expect_hit "Can you paste the nginx config"
 
 echo "=== test_patterns: ${pass} passed, ${fail} failed ==="
 if [ "$fail" -ne 0 ]; then
