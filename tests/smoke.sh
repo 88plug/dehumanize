@@ -105,4 +105,8 @@ if detect_human_framing 'this will save 40 man-hours'; then
 fi
 echo "  ok: detector flags human-time phrase"
 
+echo "=== smoke: TR pattern probes (tests/test_patterns.sh) ==="
+bash tests/test_patterns.sh
+echo "  ok: TR pattern probes"
+
 echo "=== smoke: all good ==="
