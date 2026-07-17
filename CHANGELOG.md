@@ -2,6 +2,22 @@
 
 ## 2026.7.17
 
+- **TR-backed detect wave** (session-history + total-recall probes): expand all
+  five patterns in `hooks/lib/patterns.sh`; keep FP budget (no bare step-N,
+  technical "complex number", docs-only, irreversible confirm).
+  - `ask_for_access` (critical): screenshot/visual yield — *paste/send a
+    screenshot*, *I can't see* / *I cannot see*, *tell me what you see*,
+    *feel free to paste*, *I need you to paste*; correction names screen capture.
+  - `human_capacity` (medium): *tricky*, *may take*, *this will take ~N min*,
+    *takes/taking a (bit|while|moment)*, *complex multi-step*.
+  - `emotional_labor` (medium): short openers `\b(sure|certainly|of course)!`
+    (Sure! / Certainly! / Of course!).
+  - `human_time` (high): man-weeks/months, *hours of work/effort*,
+    *(afternoon|morning|evening)'s work*.
+  - `sequential_framing` (high): *running them one by one* / *one by one*.
+  - **Audit sync:** `scripts/audit.py` `PATTERNS` lockstep with `patterns.sh`
+    (same names, regexes, severities, corrections).
+  - Docs: `docs/patterns.md` regexes + quick-ref vocabulary match runtime.
 - Skill compliance wave: `skills/dehumanize/SKILL.md` description tightened for
   auto-invoke (EOD/COB, drop/attach, "great question" / "hope this helps",
   "one step at a time", "non-trivial effort"); rewrite table kept in lockstep
@@ -16,6 +32,8 @@
   `EIGHTYEIGHT_PYTHON` / `PLUGIN_PYTHON` / `DEHUMANIZE_PYTHON` overrides.
 - CI: Dependabot (github-actions weekly); fleet action pins
   (`checkout@v7.0.0`, `setup-python@v6.3.0`, Python 3.13, runner fallback).
+- Hooks: terse SessionStart/Stop directives
+  (`access yourself. fan out. no paste-asks. no human-time. execute.`).
 
 ## 2026.6.23
 

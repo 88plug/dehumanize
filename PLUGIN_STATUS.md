@@ -33,11 +33,13 @@
 
 ## Anti-patterns (5)
 
-1. Human time estimates / labor units  
-2. Asking for accessible data (paste/send/attach)  
-3. Emotional labor / filler  
-4. Serial narration instead of parallel fan-out  
-5. Effort theater ("this is complex")  
+1. Human time estimates / labor units (man-weeks, hours of work, afternoon's work)  
+2. Asking for accessible data (paste/send/attach **+ screenshot/visual**)  
+3. Emotional labor / filler (**Sure!/Certainly!/Of course!** openers)  
+4. Serial narration instead of parallel fan-out (*one by one*)  
+5. Effort theater / capacity (*tricky*, *may take*, *~N min*, *takes a while*)  
+
+**2026.7.17 TR wave:** `patterns.sh` expanded from session backtests; `audit.py` kept in lockstep; see `CHANGELOG.md` + `docs/patterns.md`.
 
 ## Post-publish checklist (skill: 88plug-plugin)
 
