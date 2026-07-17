@@ -1,7 +1,38 @@
 {
+  "description": "dehumanize: SessionStart resets state; Stop scans for human framing and queues a one-shot correction; UserPromptSubmit injects that correction once.",
   "hooks": {
-    "SessionStart": [{"hooks":[{"type":"command","command":"bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-init.sh\"","timeout":15}]}],
-    "Stop": [{"hooks":[{"type":"command","command":"bash \"${CLAUDE_PLUGIN_ROOT}/hooks/capture-stop.sh\"","timeout":20}]}],
-    "UserPromptSubmit": [{"hooks":[{"type":"command","command":"bash \"${CLAUDE_PLUGIN_ROOT}/hooks/inject-correction.sh\"","timeout":10}]}]
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-init.sh\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/capture-stop.sh\"",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/inject-correction.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
   }
 }

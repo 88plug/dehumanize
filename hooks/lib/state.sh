@@ -1,17 +1,37 @@
 #!/usr/bin/env bash
 # state.sh - state management library for the dehumanize plugin.
-# Sourced by all hook scripts. Functions never exit on error.
+# Sourced by all hook scripts. Functions never exit the caller on error.
 
+# Resolve a writable per-project state dir under XDG_RUNTIME_DIR (fallback: /tmp).
+# Never hard-fails; returns a path even if mkdir has not run yet.
 get_state_dir() {
-  echo "${XDG_RUNTIME_DIR:-/tmp}/dehumanize-${CLAUDE_PROJECT_ID:-default}"
+  local base id candidate
+  id="${CLAUDE_PROJECT_ID:-default}"
+  # Filesystem-safe slug (session ids / paths can contain slashes).
+  id="$(printf '%s' "$id" | tr -c 'A-Za-z0-9._-' '_' 2>/dev/null || echo default)"
+  [ -n "$id" ] || id="default"
+
+  base="${XDG_RUNTIME_DIR:-}"
+  if [ -n "$base" ] && [ -d "$base" ] && [ -w "$base" ]; then
+    candidate="${base}/dehumanize-${id}"
+  else
+    candidate="/tmp/dehumanize-${USER:-u}-${id}"
+  fi
+  printf '%s' "$candidate"
 }
 
+# Ensure state dir + counter files exist. Best-effort; never fails hard.
 init_state() {
   local dir
   dir="$(get_state_dir)"
-  mkdir -p "$dir" 2>/dev/null || true
+  if ! mkdir -p "$dir" 2>/dev/null; then
+    # XDG_RUNTIME_DIR vanished or unwritable — fall back to /tmp mid-session.
+    dir="/tmp/dehumanize-${USER:-u}-fallback"
+    mkdir -p "$dir" 2>/dev/null || true
+  fi
   [ -f "$dir/violations.txt" ] || echo 0 > "$dir/violations.txt" 2>/dev/null || true
   [ -f "$dir/violations.log" ] || : > "$dir/violations.log" 2>/dev/null || true
+  printf '%s' "$dir"
 }
 
 get_violation_count() {
@@ -22,10 +42,9 @@ get_violation_count() {
 
 increment_violations() {
   local dir file lock count
-  dir="$(get_state_dir)"
+  dir="$(init_state)"
   file="$dir/violations.txt"
   lock="$dir/violations.lock"
-  mkdir -p "$dir" 2>/dev/null || true
 
   _dehumanize_bump() {
     local c
@@ -41,7 +60,7 @@ increment_violations() {
   # Serialize the read-increment-write so concurrent hooks don't clobber it.
   if command -v flock >/dev/null 2>&1; then
     count="$(
-      exec 9>"$lock" 2>/dev/null
+      exec 9>"$lock" 2>/dev/null || true
       flock 9 2>/dev/null || true
       _dehumanize_bump
     )"
@@ -57,15 +76,14 @@ increment_violations() {
     rmdir "$lock.d" 2>/dev/null || true
   fi
 
-  echo "$count"
+  echo "${count:-0}"
 }
 
 # write_correction(pattern, message)
-# Stores the message for the next hook to surface, and logs the event.
+# Stores the message for the next UserPromptSubmit to surface once, and logs.
 write_correction() {
   local pattern="$1" message="$2" dir ts esc_pattern esc_message
-  dir="$(get_state_dir)"
-  mkdir -p "$dir" 2>/dev/null || true
+  dir="$(init_state)"
   printf '%s' "$message" > "$dir/correction.txt" 2>/dev/null || true
 
   ts="$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo unknown)"
@@ -76,7 +94,7 @@ write_correction() {
 }
 
 # get_pending_correction()
-# Emits and consumes a stored correction. Returns 0 if one was present.
+# Emits and consumes a stored correction (one-shot). Returns 0 if one was present.
 get_pending_correction() {
   local dir file
   dir="$(get_state_dir)"
@@ -89,17 +107,23 @@ get_pending_correction() {
   return 1
 }
 
-# find_session_jsonl()
-# Locates the active session transcript. Echoes the path if found.
+# find_session_jsonl([hint_path])
+# Locates the active session transcript. Optional hint from hook stdin payload.
 find_session_jsonl() {
+  local hint="${1:-}"
+  if [ -n "$hint" ] && [ -f "$hint" ]; then
+    echo "$hint"
+    return 0
+  fi
   if [ -n "${CLAUDE_TRANSCRIPT_PATH:-}" ] && [ -f "$CLAUDE_TRANSCRIPT_PATH" ]; then
     echo "$CLAUDE_TRANSCRIPT_PATH"
     return 0
   fi
   local proj="${CLAUDE_PROJECT_ID:-}"
   if [ -n "$proj" ]; then
-    local latest
-    latest="$(ls -t "$HOME/.claude/projects/$proj"/*.jsonl 2>/dev/null | head -1)"
+    local latest projects_root
+    projects_root="${CLAUDE_CONFIG_DIR:-${HOME}/.claude}/projects"
+    latest="$(ls -t "$projects_root/$proj"/*.jsonl 2>/dev/null | head -1)"
     if [ -n "$latest" ] && [ -f "$latest" ]; then
       echo "$latest"
       return 0
@@ -112,8 +136,7 @@ find_session_jsonl() {
 # Appends a timestamped JSON record to violations.log.
 log_violation() {
   local pattern="$1" match="$2" context="$3" dir ts
-  dir="$(get_state_dir)"
-  mkdir -p "$dir" 2>/dev/null || true
+  dir="$(init_state)"
   ts="$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo unknown)"
   printf '{"ts":"%s","pattern":"%s","match":"%s","context":"%s"}\n' \
     "$ts" \
@@ -126,7 +149,7 @@ log_violation() {
 # _dehumanize_json_escape(string)
 # Minimal JSON string escaping for log values. Internal helper.
 _dehumanize_json_escape() {
-  local s="$1"
+  local s="${1-}"
   s="${s//\\/\\\\}"
   s="${s//\"/\\\"}"
   s="${s//$'\t'/\\t}"
