@@ -1,54 +1,71 @@
 # dehumanize — Plugin Status
 
-**Plugin name:** dehumanize
+**Status:** ready for publish  
+**Plugin:** dehumanize  
+**Manifest:** `.claude-plugin/plugin.json` only (no root `plugin.json`)  
+**Regime:** rolling (no `version` field; hub computes `YEAR.MONTH.<commit-count>`)
 
-## Anti-patterns
+## Ship bar (local)
 
-5 patterns are detected and corrected:
+- [x] Single manifest at `.claude-plugin/plugin.json`
+- [x] Keywords = 20, no `version`
+- [x] License FSL-1.1-ALv2, author 88plug
+- [x] Hooks: SessionStart / Stop / UserPromptSubmit via `${CLAUDE_PLUGIN_ROOT}`
+- [x] T1 `scripts/run-python.sh` for audit tooling (thin PATH OK)
+- [x] `tests/smoke.sh` fleet bar green
+- [x] `.ci/validate_plugin.py` present
+- [x] CI: `plugin-validate.yml` + `pages.yml` + Dependabot
+- [x] README hub-first install (`88plug/claude-code-plugins` + `dehumanize@88plug`)
+- [x] `marketplace-entry.json` source = `url` → `https://github.com/88plug/dehumanize.git`
+- [x] MkDocs Material + `docs/` + DeepWiki badge
+- [x] `.gitignore`: `site/`, `__pycache__/`, `.venv/`, `sweep_r*`, `eval_run*`
 
-1. Asking the user to paste files instead of reading them directly.
-2. Serializing work that could be fanned out in parallel.
-3. Emitting human time units (e.g. "give me a few hours").
-4. Emotional filler and apologetic padding.
-5. Framing tasks as "this is complex" instead of computing and acting.
+## Surfaces
 
-## Hooks
+| Surface | Path |
+| --- | --- |
+| SessionStart | `hooks/session-init.sh` |
+| Stop | `hooks/capture-stop.sh` |
+| UserPromptSubmit | `hooks/inject-correction.sh` |
+| Detector | `hooks/lib/detect-human-framing.sh` + `hooks/lib/patterns.sh` |
+| Commands | `audit`, `status`, `patterns`, `fix` |
+| Skill | `skills/dehumanize/SKILL.md` |
 
-- **SessionStart** — primes the session with the dehumanize directive.
-- **Stop** — audits the completed turn against the 5 anti-patterns.
-- **UserPromptSubmit** — injects the directive on every user prompt.
+## Anti-patterns (5)
 
-## Commands
+1. Human time estimates / labor units  
+2. Asking for accessible data (paste/send/attach)  
+3. Emotional labor / filler  
+4. Serial narration instead of parallel fan-out  
+5. Effort theater ("this is complex")  
 
-- **audit** — scan a session for anti-pattern hits.
-- **status** — report plugin state and counters.
-- **patterns** — list the 5 anti-patterns and their detectors.
-- **fix** — rewrite flagged output to remove anti-patterns.
+## Post-publish checklist (skill: 88plug-plugin)
 
-## JSONL extraction
+Run once after first `git push -u origin main`:
 
-The last assistant text is pulled from a session JSONL file:
+1. **Enable GitHub Pages** (one-time, before first Pages deploy):
+   ```bash
+   gh api -X POST repos/88plug/dehumanize/pages -f build_type=workflow
+   ```
 
-```bash
-LAST_ASST_TEXT=$(python3 -c 'import json,sys
-t=""
-for line in open(sys.argv[1]):
-    try: o=json.loa
-```
+2. **Add to central marketplace registry** (one-time; plugins are not auto-added):
+   - Edit `88plug/claude-code-plugins` `.claude-plugin/marketplace.json`
+   - Entry: name `dehumanize`, source `url` → `https://github.com/88plug/dehumanize.git`
+   - Do **not** set `version` (rolling)
 
-## Session log backtesting
+3. **Trigger DeepWiki indexing** (one-time, public repo):
+   - Use `/deepwiki-index` skill (Chrome via screen-mcp; reCAPTCHA)
+   - Badge: https://deepwiki.com/88plug/dehumanize
 
-Backtested against **6,300 files** across **464 projects**.
+4. **Set GitHub repo topics** (aim 18–20):
+   ```bash
+   gh api 'search/repositories?q=topic:<x>' -q .total_count   # traffic check
+   gh api --method PUT repos/88plug/dehumanize/topics \
+     -f 'names[]=claude-code' -f 'names[]=claude-code-plugin' # …fill to ≤20
+   ```
 
-## User prompt injection
+5. **Set repo About description** — keyword-front-loaded one-liner matching plugin.json description.
 
-The directive injected on every prompt:
+## Directive (UserPromptSubmit)
 
 > You are AI, not a person. Access files directly, never ask for them. Fan out in parallel, never serialize. No human time units, no emotional filler, no "this is complex." Compute and act now.
-
-## Next steps
-
-- git push
-- register in 88plug marketplace
-- deepwiki index
-- set GitHub topics
