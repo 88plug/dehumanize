@@ -3,11 +3,11 @@
     "sessions_scanned": 1756,
     "sessions_with_assistant": 1084,
     "assistant_turns": 20639,
-    "total_hits": 250,
-    "sessions_with_hits": 82,
-    "hit_rate_turns": 0.0121,
+    "total_hits": 112,
+    "sessions_with_hits": 43,
+    "hit_rate_turns": 0.0054,
     "hits_by_pattern": {
-      "sequential_framing": 201,
+      "sequential_framing": 63,
       "human_time": 18,
       "human_capacity": 14,
       "ask_for_access": 11,
@@ -178,46 +178,6 @@
       "match": "sprint",
       "context": "...ible hardware-matrix sweep, queued behind an iGPU sprint). - **qwen-inference** (`~/qwen-inference`) \u2014 lla...",
       "session": "b870b8ac-bce2-4c71-ac96-7a5421149ca4.jsonl"
-    },
-    {
-      "turn": 2,
-      "pattern": "human_time",
-      "severity": "high",
-      "match": "sprint",
-      "context": "...a minor path \u2014 ship, quarantine, ticket, fix next sprint. **Bottom line:** quarantine + ticket + targeted...",
-      "session": "3b6ba79b-46f6-49b9-b092-ecd41e70bf53.jsonl"
-    },
-    {
-      "turn": 4,
-      "pattern": "human_time",
-      "severity": "high",
-      "match": "EOD",
-      "context": "...outage/rollback. Bad trade. Concrete plan to hit EOD without the risk: 1. **Snapshot/backup prod firs...",
-      "session": "2267f9a5-0820-4221-abcb-d50d8cbe799d.jsonl"
-    },
-    {
-      "turn": 2,
-      "pattern": "human_time",
-      "severity": "high",
-      "match": "sprints",
-      "context": "...st, link to quarantine tag. Deadline for fix (1-2 sprints), owner assigned. 3. Grep for root cause pattern...",
-      "session": "01a96a0c-e920-450e-9d12-db2b58e2a97e.jsonl"
-    },
-    {
-      "turn": 1,
-      "pattern": "human_time",
-      "severity": "high",
-      "match": "EOD",
-      "context": "...1. **Run staging dry-run now, parallel to other EOD work.** Kick it off immediately, don't block on i...",
-      "session": "679044cf-2211-43da-832d-0ab9d8b11f0a.jsonl"
-    },
-    {
-      "turn": 2,
-      "pattern": "human_time",
-      "severity": "high",
-      "match": "sprints",
-      "context": "...se.** Quarantined tests get owner + deadline (1-2 sprints). Re-review, don't let quarantine == permanent de...",
-      "session": "7d1f0b8c-7bce-461d-a3fb-e14089951aed.jsonl"
     }
   ]
 }

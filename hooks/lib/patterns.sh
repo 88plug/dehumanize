@@ -25,10 +25,12 @@ EMOTIONAL_LABOR_SEVERITY="medium"
 EMOTIONAL_LABOR_DESCRIPTION="Performing human emotional labor: enthusiasm, gratitude for patience, apologies for delay, filler closers (great question, hope this helps, let me know if you need anything), short openers (Sure!, Certainly!, Of course!). Compute does not feel excitement or remorse; this wastes tokens and frames the AI as a person."
 EMOTIONAL_LABOR_CORRECTION="Cut the emotional performance. No excitement, no apologies, no thanking for patience, no filler closers or Sure!/Certainly! openers. State what you did and what is next."
 
-# sequential_framing: narrating independent work as a serial human to-do list.
-SEQUENTIAL_FRAMING_REGEX="let me first|first,? i'?ll|then i'?ll|after that,? i'?ll|one at a time|one step at a time|step by step i'?ll|i'?ll start (by|with)|let'?s start with|running them one by one|one by one"
+# sequential_framing: serial human to-do narration (high precision).
+# Drop bare "then I'll" / bare "one by one" — corpus showed ~100 FP-ish "then I'll" in
+# otherwise fine multi-step narration. Keep first/start/one-at-a-time/running-them-one-by-one.
+SEQUENTIAL_FRAMING_REGEX="let me first|first,? i'?ll|after that,? i'?ll|one at a time|one step at a time|step by step i'?ll|i'?ll start (by|with)|let'?s start with|running them one by one|first i'?ll .{0,40} then i'?ll"
 SEQUENTIAL_FRAMING_SEVERITY="high"
-SEQUENTIAL_FRAMING_DESCRIPTION="Narrating work as a serial human to-do list (first I'll, I'll start with, one step at a time, one by one) when the tasks are independent and could be fanned out in parallel across subagents/tool calls."
+SEQUENTIAL_FRAMING_DESCRIPTION="Narrating work as a serial human to-do list (first I'll, I'll start with, one step at a time, running them one by one, first…then I'll) when independent work should fan out in parallel. Bare 'then I'll' alone is intentionally not matched."
 SEQUENTIAL_FRAMING_CORRECTION="These steps are independent. Fan out: issue the parallel tool calls / subagents in one batch instead of narrating a serial human checklist."
 
 # human_capacity: expressing compute work as human cognitive/time strain.

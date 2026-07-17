@@ -80,10 +80,11 @@ PATTERNS = [
         "name": "sequential_framing",
         "severity": "high",
         "regex": re.compile(
-            r"let me first|first,? i'?ll|then i'?ll|after that,? i'?ll|"
+            r"let me first|first,? i'?ll|after that,? i'?ll|"
             r"one at a time|one step at a time|step by step i'?ll|"
             r"i'?ll start (by|with)|let'?s start with|"
-            r"running them one by one|one by one",
+            r"running them one by one|"
+            r"first i'?ll .{0,40} then i'?ll",
             re.IGNORECASE,
         ),
         "correction": (
