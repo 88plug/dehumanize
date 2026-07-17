@@ -5,17 +5,19 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v7.0.0
-      - uses: actions/setup-python@v6.2.0
+      - uses: actions/setup-python@v6.3.0
         with:
           python-version: "3.13"
+      - run: pip install --quiet pyyaml
       - run: python3 .ci/validate_plugin.py
       - run: bash tests/smoke.sh
