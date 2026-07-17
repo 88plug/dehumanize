@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Audit a Claude Code session transcript for dehumanize anti-patterns.
 
-Usage: python3 audit.py [path_to_session.jsonl]
+Usage:
+  scripts/run-python.sh scripts/audit.py [path_to_session.jsonl]
 
 Resolution order for the transcript path:
   1. sys.argv[1]
