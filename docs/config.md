@@ -1,77 +1,70 @@
 # Configuration
 
-dehumanize is configured through its state directory, optional custom patterns, an optional statusline, and hook timeouts. Nothing is required to get started — the defaults ship the five built-in anti-patterns.
+dehumanize works out of the box. The five built-in anti-patterns load with the plugin. Optional knobs: state location, statusline badge, and hook timeouts.
 
 ## State directory
 
-dehumanize keeps its runtime state under:
+Runtime state is per project and per session under the XDG runtime dir:
 
 ```text
-~/.dehumanize/
-├── state.json        # rolling counters per pattern
-├── patterns.json     # active pattern set (built-ins + custom)
-└── backtest/         # cached backtest runs over past sessions
+$XDG_RUNTIME_DIR/dehumanize-<project-id>/
+├── violations.txt    # running violation count
+├── violations.log    # per-hit JSON lines (ts, pattern, match, context)
+└── correction.txt    # pending next-turn correction (consumed on inject)
 ```
 
-!!! note "Override the location"
-    Set `DEHUMANIZE_STATE_DIR` to relocate state. The directory is created on first run if it does not exist.
+If `XDG_RUNTIME_DIR` is unset, state falls back to `/tmp/dehumanize-<project-id>/`.
+`<project-id>` comes from `CLAUDE_PROJECT_ID` (default: `default`).
 
-```bash
-export DEHUMANIZE_STATE_DIR="$HOME/.config/dehumanize"
-```
-
-## Custom patterns
-
-Add your own anti-patterns by appending objects to `patterns.json` in the state directory. Each entry mirrors the built-in schema.
-
-```json
-{
-  "id": "no_hedging",
-  "severity": "medium",
-  "description": "Hedging language that defers a decision the AI can make.",
-  "regex": "i think (maybe|perhaps)|it might be worth|you may want to consider",
-  "correction": "Make the call. State the choice and the reason, not a hedge."
-}
-```
-
-Valid severities are `critical`, `high`, and `medium`. Custom patterns are merged with the built-ins; an `id` collision overrides the built-in of the same name.
-
-!!! warning "Regex discipline"
-    Patterns are matched case-insensitively against full assistant messages. Anchor and escape carefully — an overly broad regex will fire on legitimate output and degrade the signal.
+!!! note "Ephemeral by design"
+    State is under the runtime dir so it clears on reboot. It is not meant as
+    long-term analytics storage. Use `/dehumanize:audit` against session JSONL
+    for historical scans.
 
 ## Statusline setup
 
-dehumanize can render a live counter in the Claude Code statusline showing how many patterns have fired in the current session.
+Install the live violation badge into Claude Code's statusline:
+
+```bash
+bash "$(claude plugin path dehumanize)/install.sh"
+```
+
+That writes a `statusLine` command into `~/.claude/settings.json` pointing at
+`scripts/statusline.sh`. The badge prints:
+
+- `[DEHUMANIZE: OK]` when the session count is zero
+- `[DEHUMANIZE: N!]` when N violations have been recorded
+
+Reload Claude Code after install. To wire it by hand:
 
 ```json
 {
   "statusLine": {
     "type": "command",
-    "command": "dehumanize statusline"
+    "command": "bash \"/path/to/dehumanize/scripts/statusline.sh\""
   }
 }
 ```
-
-Add the block above to `~/.claude/settings.json`. The statusline reads from the state directory and prints a compact per-severity tally.
 
 ## Hook timeouts
 
-dehumanize runs as a hook on assistant output. The hook is fast (regex-only) but you can bound it explicitly in `settings.json`.
+Hooks are pure bash regex scans. Defaults ship in the plugin manifest:
 
-```json
-{
-  "hooks": {
-    "Stop": [
-      {
-        "matcher": "*",
-        "hooks": [
-          { "type": "command", "command": "dehumanize check", "timeout": 5 }
-        ]
-      }
-    ]
-  }
-}
-```
+| Hook | Script | Default timeout |
+| --- | --- | --- |
+| SessionStart | `hooks/session-init.sh` | 15s |
+| Stop | `hooks/capture-stop.sh` | 20s |
+| UserPromptSubmit | `hooks/inject-correction.sh` | 10s |
 
 !!! note "Timeout units"
-    `timeout` is in seconds. The default check completes well under one second; a 5-second ceiling leaves ample headroom while guaranteeing the hook never blocks the session.
+    Timeouts are in seconds. Checks complete well under one second in normal
+    sessions; the ceilings leave headroom without blocking the session.
+
+## Commands reference
+
+| Command | What it does |
+| --- | --- |
+| `/dehumanize:status` | Session violation count + most recent matches. |
+| `/dehumanize:patterns` | Full pattern table (severity, regex, examples). |
+| `/dehumanize:audit` | Scan the current session transcript for all hits. |
+| `/dehumanize:fix` | Rewrite the last assistant turn without human framing. |

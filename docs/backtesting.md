@@ -1,4 +1,4 @@
-# Backtesting Results
+# Backtesting
 
 The dehumanize pattern set was validated by replaying it against real Claude Code history: **6,300 session JSONL files** drawn from **464 project directories** on disk. Each session was scanned for every pattern, and the matches were ranked by severity and frequency to confirm the patterns fire on genuine output rather than synthetic test cases.
 
@@ -27,7 +27,7 @@ The dehumanize pattern set was validated by replaying it against real Claude Cod
 
 ## What the results show
 
-- The two highest-severity patterns — `human_time` and `emotional_labor` — both fired on real, unprompted output, confirming they target tells that occur naturally rather than contrived strings.
+- The two highest-signal patterns — `human_time` and `emotional_labor` — both fired on real, unprompted output, confirming they target tells that occur naturally rather than contrived strings.
 - `human_time` clustered: in the farmgpu-shepherd session all five hits came from one file, which is the expected shape for a planning document that adopts a team-cadence vocabulary throughout.
 - Total counts per project are low, which is the intended outcome — these are tells, not pervasive errors, so a small precise pattern set catches them without flooding the user with false positives.
 
