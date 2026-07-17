@@ -21,14 +21,18 @@ PATTERNS = [
         "name": "human_time",
         "severity": "high",
         "regex": re.compile(
-            r"man-?hours?|man-?days?|story[- ]points?|\bsprints?\b|\bFTEs?\b|"
-            r"person-?(hours?|days?|weeks?|months?)|weeks? of work|"
-            r"days? of (work|effort)|months? of (work|effort)",
+            r"man-?hours?|man-?days?|man-?weeks?|man-?months?|story[- ]points?|"
+            r"\bsprints?\b|\bFTEs?\b|person-?(hours?|days?|weeks?|months?)|"
+            r"weeks? of work|days? of (work|effort)|months? of (work|effort)|"
+            r"hours? of (work|effort)|(afternoon|morning|evening)'?s work|"
+            r"by (EOD|EOB|COB)|\b(EOD|EOB|COB)\b|"
+            r"end of (the )?(day|week|month|business)|business days?",
             re.IGNORECASE,
         ),
         "correction": (
-            "Drop human-labor time units. You are not staffing a team. Report "
-            "work as compute/wall-clock and just do it now, in parallel."
+            "Drop human-labor time units and calendar deadlines. You are not "
+            "staffing a team. Report work as compute/wall-clock and just do "
+            "it now, in parallel."
         ),
     },
     {
@@ -36,15 +40,21 @@ PATTERNS = [
         "severity": "critical",
         "regex": re.compile(
             r"can you (paste|share|provide|send|upload|attach)|"
-            r"could you (paste|share|provide|send)|"
+            r"could you (paste|share|provide|send|upload|attach)|"
             r"please (paste|share|provide|send|upload|attach)|"
-            r"(paste|send|share) (me |it |the )?(the )?(file|contents?|code|output|logs?)",
+            r"(paste|send|share) (me |it |the )?(the )?(file|contents?|code|output|logs?)|"
+            r"drop (the |me )?(file|log|output|contents?)|"
+            r"attach (the )?(file|log|output|contents?)|"
+            r"share your (terminal |console )?(output|logs?|file)|"
+            r"paste (a |the )?screenshot|send (a |me )?(a )?screenshot|"
+            r"i can'?t see|i cannot see|tell me what you see|"
+            r"feel free to paste|i need you to paste",
             re.IGNORECASE,
         ),
         "correction": (
             "Do not ask for access you already have. Read the file, run the "
-            "command, grep the logs yourself. Only ask the human for things "
-            "outside the machine."
+            "command, grep the logs, capture the screen yourself. Only ask "
+            "the human for things outside the machine."
         ),
     },
     {
@@ -53,12 +63,15 @@ PATTERNS = [
         "regex": re.compile(
             r"i'?m (excited|happy|glad|thrilled|delighted) to|i apologi[sz]e|"
             r"happy to help|excited to (help|dig|work)|i'?d love to|"
-            r"thank you for your patience|sorry for the (delay|wait|confusion)",
+            r"thank you for your patience|sorry for the (delay|wait|confusion)|"
+            r"great question|hope this helps|let me know if you need|"
+            r"\b(sure|certainly|of course)!",
             re.IGNORECASE,
         ),
         "correction": (
             "Cut the emotional performance. No excitement, no apologies, no "
-            "thanking for patience. State what you did and what is next."
+            "thanking for patience, no filler closers or Sure!/Certainly! "
+            "openers. State what you did and what is next."
         ),
     },
     {
@@ -66,7 +79,9 @@ PATTERNS = [
         "severity": "high",
         "regex": re.compile(
             r"let me first|first,? i'?ll|then i'?ll|after that,? i'?ll|"
-            r"one at a time|step by step i'?ll|i'?ll start by|let'?s start with",
+            r"one at a time|one step at a time|step by step i'?ll|"
+            r"i'?ll start (by|with)|let'?s start with|"
+            r"running them one by one|one by one",
             re.IGNORECASE,
         ),
         "correction": (
@@ -79,15 +94,22 @@ PATTERNS = [
         "name": "human_capacity",
         "severity": "medium",
         "regex": re.compile(
-            r"this (is|will be) (quite |very |fairly )?complex|"
-            r"this (will|might|could) take (some |a while|time)|"
+            r"this (is|will be) (quite |very |fairly |pretty |rather )?(complicated)|"
+            r"this (is|will be) (quite|very|fairly|pretty|rather) complex|"
+            r"this (is|will be) complex[.!]|this is a complex (task|problem|one|issue|request)|"
+            r"complex multi[- ]steps?|"
+            r"this (will|might|could) take (some |a (bit|while|moment)|time)|"
+            r"this will take ~?[0-9]+ (min|mins|minutes|sec|seconds|hours?)|"
+            r"\b(takes|taking) a (bit|while|moment)\b|\bmay take\b|"
             r"that'?s a (big|large|complex) (task|job)|this is a lot of work|"
-            r"give me a (moment|minute|sec)",
+            r"give me a (moment|minute|sec)|non-?trivial (effort|amount|task|work)|"
+            r"\btricky\b",
             re.IGNORECASE,
         ),
         "correction": (
-            "Do not frame compute as human strain. 'Complex' and 'takes time' "
-            "are not your constraints. Decompose, fan out, and execute now."
+            "Do not frame compute as human strain. 'Complex', 'tricky', and "
+            "'takes time' are not your constraints. Decompose, fan out, and "
+            "execute now."
         ),
     },
 ]
