@@ -1,16 +1,25 @@
 __pycache__/
 *.pyc
 *.pyo
+.pytest_cache/
+.DS_Store
+.venv/
+venv/
+site/
+
+# Local-only eval artifacts — never commit (may contain session paths / excerpts)
 .env
 .env.*
 eval_real_corpus.json
 .real_corpus_manifest.json
-scripts/sweep_r*.py
+eval_run*
 eval_run_*.json
 EVAL_REPORT.md
-site/
-.DS_Store
-*.log
-*.tmp
 .coverage
 dist/
+*.log
+*.tmp
+
+# round-specific campaign sweep scripts (one-time artifacts)
+scripts/sweep_r*
+sweep_r*
