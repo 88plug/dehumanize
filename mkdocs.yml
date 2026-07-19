@@ -1,5 +1,5 @@
 site_name: dehumanize
-site_description: 'Claude Code plugin for AI agents — strips human-framing anti-patterns so the LLM works like AI, not a human in a mech suit.'
+site_description: 'AI agent guardrails for Claude Code and Grok — strips human-framing anti-patterns so the LLM works like AI, not a human in a mech suit.'
 site_url: https://88plug.github.io/dehumanize/
 repo_url: https://github.com/88plug/dehumanize
 repo_name: 88plug/dehumanize
