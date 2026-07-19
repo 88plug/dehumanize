@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "dehumanize",
   "displayName": "Dehumanize",
-  "description": "Makes AI work like AI — no human time estimates, no asking for accessible data, no emotional labor.",
+  "description": "Makes AI work like AI \u2014 no human time estimates, no asking for accessible data, no emotional labor.",
   "author": {
     "name": "88plug",
     "email": "andrew@88plug.com"
@@ -32,41 +32,6 @@
     "software-quality",
     "ai-native"
   ],
-  "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-init.sh\"",
-            "timeout": 15
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/capture-stop.sh\"",
-            "timeout": 20
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/inject-correction.sh\"",
-            "timeout": 10
-          }
-        ]
-      }
-    ]
-  },
   "commands": "./commands",
   "skills": "./skills"
 }
