@@ -19,6 +19,14 @@ Claude Code plugin for AI agents — strips human-framing anti-patterns so the L
 /plugin install dehumanize@88plug
 ```
 
+### Grok Build
+
+```text
+grok plugin marketplace add 88plug/claude-code-plugins
+grok plugin install dehumanize@88plug --trust
+```
+
+
 Hooks activate on the next session. No API keys, no model calls of their own — pure bash guardrails.
 
 ## Why this Claude Code plugin

@@ -18,6 +18,14 @@ Marketplace (recommended):
 /plugin install dehumanize@88plug
 ```
 
+### Grok Build
+
+```text
+grok plugin marketplace add 88plug/claude-code-plugins
+grok plugin install dehumanize@88plug --trust
+```
+
+
 Optional statusline badge (live violation counter):
 
 ```bash
