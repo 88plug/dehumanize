@@ -46,7 +46,7 @@ bash "$(claude plugin path dehumanize)/install.sh"
 | Serial narration (`sequential_framing`) | "first I'll X, then I'll Y, then finally Z" | Independent work should fan out in parallel, not queue up. |
 | Effort theater (`human_capacity`) | "this is complex and will take some time" | Hedging about difficulty instead of just doing the work. |
 
-Full regexes and corrections: [Anti-Patterns](patterns.md).
+Full regexes and corrections: [Anti-Patterns](https://github.com/88plug/dehumanize/blob/main/patterns.md).
 
 ## Commands
 
@@ -80,8 +80,29 @@ Three hooks, pure bash, no dependencies:
 
 Patterns were validated against real history: **6,300 session logs across 464 projects**. `human_time` dominated real-world hits — overwhelmingly *sprint* and *weeks of work* used as planning units.
 
-See [Backtesting](backtesting.md) for representative findings.
+See [Backtesting](https://github.com/88plug/dehumanize/blob/main/backtesting.md) for representative findings.
 
 ## Configuration
 
-State directory, optional statusline, and hook timeouts: [Configuration](config.md).
+State directory, optional statusline, and hook timeouts: [Configuration](https://github.com/88plug/dehumanize/blob/main/config.md).
+
+## Features
+
+| Piece | What it does |
+| --- | --- |
+| SessionStart hook | Reset per-session state; print a one-screen operating reminder |
+| Stop hook | Scan the completed response for five human-framing patterns |
+| UserPromptSubmit hook | Inject a short correction when prior violations exist |
+| `dehumanize` skill | On-demand rewrite: access data directly, parallelize, drop filler |
+| Four slash commands | `status`, `patterns`, `audit`, `fix` for live and transcript review |
+| Optional statusline | Live violation counter via `install.sh` |
+
+## Development
+
+```bash
+git clone https://github.com/88plug/dehumanize.git
+cd dehumanize
+bash tests/smoke.sh
+```
+
+Load the local path via Claude Code's `/plugin` flow for iteration. Docs site is MkDocs Material (`mkdocs.yml` + `docs/`).
