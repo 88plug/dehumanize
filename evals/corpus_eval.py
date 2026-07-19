@@ -16,7 +16,7 @@ import argparse
 import json
 import re
 import sys
-from collections import Counter, defaultdict
+from collections import Counter
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional, Tuple
@@ -241,8 +241,12 @@ def main() -> int:
         print(f"sessions with hits:      {s['sessions_with_hits']}")
         print(f"hit rate (hits/turns):   {s['hit_rate_turns']}")
         print(f"hits by pattern:         {s['hits_by_pattern']}")
-        print(f"denylist probes:         {'PASS' if s['denylist_ok'] else 'FAIL ' + str(s['denylist_failures'])}")
-        print(f"must-hit probes:         {'PASS' if s['must_hit_ok'] else 'FAIL ' + str(s['must_hit_failures'])}")
+        print(
+            f"denylist probes:         {'PASS' if s['denylist_ok'] else 'FAIL ' + str(s['denylist_failures'])}"
+        )
+        print(
+            f"must-hit probes:         {'PASS' if s['must_hit_ok'] else 'FAIL ' + str(s['must_hit_failures'])}"
+        )
         print("\n--- sample hits ---")
         for h in payload["top_hits"][:15]:
             print(f"  [{h['severity']}] {h['pattern']}: {h['match']!r}")

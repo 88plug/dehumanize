@@ -222,7 +222,6 @@ def build_report(path, turns, findings):
     counts = {p["name"]: 0 for p in PATTERNS}
     for f in findings:
         counts[f["pattern"]] += 1
-    sev_by_name = {p["name"]: p["severity"] for p in PATTERNS}
 
     out("VIOLATIONS BY PATTERN")
     out("-" * 60)
@@ -233,11 +232,7 @@ def build_report(path, turns, findings):
         key=lambda p: (-counts[p["name"]], SEVERITY_ORDER.get(p["severity"], 9)),
     )
     for p in ordered:
-        out(
-            "{:<20} {:<10} {:>6}".format(
-                p["name"], p["severity"], counts[p["name"]]
-            )
-        )
+        out("{:<20} {:<10} {:>6}".format(p["name"], p["severity"], counts[p["name"]]))
     out("-" * 60)
     out("")
 
@@ -252,11 +247,7 @@ def build_report(path, turns, findings):
         out("Turn {} with {} violation(s):".format(worst_turn, per_turn[worst_turn]))
         for f in findings:
             if f["turn"] == worst_turn:
-                out(
-                    "  [{}/{}] \"{}\"".format(
-                        f["severity"], f["pattern"], f["match"]
-                    )
-                )
+                out('  [{}/{}] "{}"'.format(f["severity"], f["pattern"], f["match"]))
                 out("      context: {}".format(f["context"]))
         out("")
     else:
