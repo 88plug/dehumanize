@@ -2,14 +2,22 @@
 # state.sh - state management library for the dehumanize plugin.
 # Sourced by all hook scripts. Functions never exit the caller on error.
 
-# Resolve a writable per-project state dir under XDG_RUNTIME_DIR (fallback: /tmp).
-# Never hard-fails; returns a path even if mkdir has not run yet.
+# Resolve a writable per-project state dir.
+# Prefer GROK_PLUGIN_DATA / CLAUDE_PLUGIN_DATA (survives plugin updates), then
+# XDG_RUNTIME_DIR, then /tmp. Never hard-fails.
 get_state_dir() {
-  local base id candidate
+  local base id candidate pdata
   id="${CLAUDE_PROJECT_ID:-default}"
   # Filesystem-safe slug (session ids / paths can contain slashes).
   id="$(printf '%s' "$id" | tr -c 'A-Za-z0-9._-' '_' 2>/dev/null || echo default)"
   [ -n "$id" ] || id="default"
+
+  pdata="${GROK_PLUGIN_DATA:-${CLAUDE_PLUGIN_DATA:-}}"
+  if [ -n "$pdata" ]; then
+    candidate="${pdata%/}/state/${id}"
+    printf '%s' "$candidate"
+    return 0
+  fi
 
   base="${XDG_RUNTIME_DIR:-}"
   if [ -n "$base" ] && [ -d "$base" ] && [ -w "$base" ]; then
